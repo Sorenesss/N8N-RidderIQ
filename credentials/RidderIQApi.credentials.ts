@@ -7,7 +7,7 @@ import {
 export class RidderIQApi implements ICredentialType {
 	name = 'ridderIQApi';
 	displayName = 'RidderIQ API';
-	icon: Icon = { light: 'file:../../n8n-nodes-ridder/icons/ridderiq.svg', dark: 'file:../../n8n-nodes-ridder/icons/ridderiq.svg' };
+	icon: Icon = { light: 'file:../../n8n-nodes-ridderiq/icons/ridderiq.svg', dark: 'file:../../n8n-nodes-ridderiq/icons/ridderiq.svg' };
 	documentationUrl = 'https://api.ridderiq.com';
 	properties: INodeProperties[] = [
 		{
