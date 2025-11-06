@@ -11,7 +11,7 @@ if [ -z "$PACKAGE_NAME" ]; then
   exit 1
 fi
 
-TARGET_DIR="var/lib/docker/volumes/n8n-n8n-data/_data/custom/$PACKAGE_NAME"
+TARGET_DIR="/var/lib/docker/volumes/n8n_n8n_data/_data/custom/$PACKAGE_NAME"
 
 echo "Detected package name: '$PACKAGE_NAME'"
 echo "Target deployment directory: '$TARGET_DIR'"
