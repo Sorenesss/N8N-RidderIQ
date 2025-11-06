@@ -1,4 +1,5 @@
 import {
+	Icon,
 	ICredentialType,
 	INodeProperties,
 } from 'n8n-workflow';
@@ -6,6 +7,7 @@ import {
 export class RidderIQApi implements ICredentialType {
 	name = 'ridderIQApi';
 	displayName = 'RidderIQ API';
+	icon: Icon = { light: 'file:../icons/ridderiq.svg', dark: 'file:../icons/ridderiq.svg' };
 	documentationUrl = 'https://api.ridderiq.com';
 	properties: INodeProperties[] = [
 		{

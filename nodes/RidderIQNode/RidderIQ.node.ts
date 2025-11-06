@@ -1,10 +1,10 @@
-import { INodeType, INodeTypeDescription } from 'n8n-workflow';
+import { INodeType, INodeTypeDescription, Icon } from 'n8n-workflow';
 
 export class RidderIQ implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'RidderIQ',
 		name: 'ridderIQ',
-        icon: 'file:RidderIQ.svg',
+        icon: { light: 'file:../icons/ridderiq.svg', dark: 'file:../icons/ridderiq.svg' },
 		group: ['transform'],
 		version: 1,
 		description: 'Interact with the RidderIQ API',
