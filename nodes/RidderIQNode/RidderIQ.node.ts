@@ -28,33 +28,37 @@ export class RidderIQ implements INodeType {
 			{
 				displayName: 'Endpoint',
 				name: 'endpoint',
-				type: 'options',
-				options: [
-					{ name: 'Projects', value: 'projects' },
-					{ name: 'Customers', value: 'customers' },
-					{ name: 'Invoices', value: 'invoices' },
-				],
+				type: 'string',
 				default: 'projects',
+				placeholder: 'Enter API endpoint',
+				description: 'The API endpoint to call.',
 			},
 			{
 				displayName: 'HTTP Method',
 				name: 'method',
 				type: 'options',
 				options: [
-					{ name: 'GET', value: 'GET' },
-					{ name: 'POST', value: 'POST' },
-					{ name: 'PUT', value: 'PUT' },
-					{ name: 'DELETE', value: 'DELETE' },
+					{ name: 'GET', value: 'GET', routing: {request: {method: 'GET'}} },
+					{ name: 'POST', value: 'POST', routing: {request: {method: 'POST'}} },
+					{ name: 'PUT', value: 'PUT', routing: {request: {method: 'PUT'}} },
+					{ name: 'DELETE', value: 'DELETE', routing: {request: {method: 'DELETE'}} },
 				],
 				default: 'GET',
 			},
 			{
-				displayName: 'Body (JSON)',
+				displayName: 'Body',
 				name: 'bodyJson',
 				type: 'json',
 				default: '{}',
 				displayOptions: { show: { method: ['POST', 'PUT'] } },
 			},
 		],
+		requestDefaults: {
+			baseURL: '{{$credentials.baseURL}}/{{$credentials.TenantID}}/{{$credentials.AdministrationID}}/{{$parameter.version}}/{{$parameter.endpoint}}',
+			headers: {
+				Accept: 'application/json',
+				'Content-Type': 'application/json',
+			},
+		},
 	};
 }
