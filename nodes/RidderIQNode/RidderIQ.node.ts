@@ -4,7 +4,7 @@ export class RidderIQ implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'RidderIQ',
 		name: 'ridderIQ',
-        icon: { light: 'file:../icons/ridderiq.svg', dark: 'file:../icons/ridderiq.svg' },
+        icon: { light: 'file:../../icons/ridderiq.svg', dark: 'file:../../icons/ridderiq.svg' },
 		group: ['transform'],
 		version: 1,
 		description: 'Interact with the RidderIQ API',
