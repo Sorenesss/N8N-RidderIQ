@@ -2,7 +2,8 @@ import { IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workfl
 import {
 	IExecuteFunctions,
 	INodeExecutionData,
-	NodeOperationError
+	NodeOperationError,
+	NodeApiError
 } from 'n8n-workflow';
 
 export class RidderIQ implements INodeType {
@@ -203,6 +204,7 @@ export class RidderIQ implements INodeType {
 					body: body,
 					qs:{'size': additionalOptions.pageSize, 'page': additionalOptions.page},
 					json: true});
+				try{
 				if (response && response.statusCode && response.statusCode >= 400) {
 					throw new NodeOperationError(this.getNode(), `RidderIQ API returned status ${response.statusCode}`, {
 						description: JSON.stringify({
@@ -213,6 +215,9 @@ export class RidderIQ implements INodeType {
 							response: response.body || response,
 						}, null, 2),
 					});
+				}
+				} catch (error) {
+					throw new NodeApiError(this.getNode(), error);
 				}
 
 				// 5. Voeg de respons toe aan de output
