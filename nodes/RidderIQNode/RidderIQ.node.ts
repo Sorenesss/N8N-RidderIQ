@@ -53,6 +53,7 @@ export class RidderIQ implements INodeType {
 			{
 				displayName: 'Body',
 				name: 'bodyJson',
+				placeholder: 'JSON body',
 				type: 'json',
 				default: '{}',
 				displayOptions: { show: { method: ['POST', 'PUT'] } },
@@ -68,6 +69,7 @@ export class RidderIQ implements INodeType {
 						displayName: 'Page',
 						name: 'page',
 						type: 'number',
+						placeholder: 'crm/todos',
 						default: 1,
 						description: 'Page number for paginated endpoints.',
 						displayOptions: { show: { method: ['GET'] } },
@@ -135,6 +137,7 @@ export class RidderIQ implements INodeType {
 					page?: number;
 					pageSize?: number;
 					filter?: string;
+					sort?: string;
 				};
 
 				// 1. Construct the complete URL
@@ -157,6 +160,30 @@ export class RidderIQ implements INodeType {
 					} catch (e) {
 						throw new Error(`Invalid JSON body: ${e.message}`);
 					}
+				}
+
+				const qs: Record<string, unknown> = {};
+
+				// Voeg alleen toe als niet leeg of undefined
+				if (additionalOptions.pageSize !== undefined) {
+					if (additionalOptions.pageSize<=0) {
+						throw new NodeOperationError(this.getNode(), 'Page Size must be greater than 0.');
+					} else if (additionalOptions.pageSize>200) {
+						throw new NodeOperationError(this.getNode(), 'Page Size must not be greater than 200.');
+					}
+					qs.size = additionalOptions.pageSize;
+				}
+				if (additionalOptions.page !== undefined) {
+					if (additionalOptions.page<=0) {
+						throw new NodeOperationError(this.getNode(), 'Page must be greater than zero.');
+					}
+					qs.page = additionalOptions.page;
+				}
+				if (additionalOptions.filter !== undefined  && additionalOptions.filter !== '') {
+					qs.filter = encodeURIComponent(additionalOptions.filter);
+				}
+				if (additionalOptions.sort != undefined && additionalOptions.sort !== '') {
+					qs.sort = encodeURIComponent(additionalOptions.sort);
 				}
 
 				/*if(true){
