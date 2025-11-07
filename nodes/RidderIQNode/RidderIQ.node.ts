@@ -97,7 +97,7 @@ export class RidderIQ implements INodeType {
 				// 2. Construct the Headers
 				const headers = {
 					'Content-Type': 'application/json',
-					'X-API-KEY': apiKey, // API Key als custom header
+					'X-API-KEY': `'${apiKey}'`, // API Key als custom header
 				};
 
 				// 3. Prepare the Body
