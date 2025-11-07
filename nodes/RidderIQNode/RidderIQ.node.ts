@@ -88,7 +88,6 @@ export class RidderIQ implements INodeType {
 				const version = this.getNodeParameter('version', i) as string;
 				const endpoint = this.getNodeParameter('endpoint', i) as string;
 				const method = this.getNodeParameter('method', i) as IHttpRequestMethods;
-				const bodyJson = this.getNodeParameter('bodyJson', i) as string;
 
 				// 1. Construct the complete URL
 				// Formaat: Base URL / API Versie / Tenant ID / Administratie ID / Resource
@@ -105,6 +104,7 @@ export class RidderIQ implements INodeType {
 				let body: object = {};
 				if (method === 'POST' || method === 'PUT') {
 					try {
+						const bodyJson = this.getNodeParameter('bodyJson', i) as string;
 						body = JSON.parse(bodyJson);
 					} catch (e) {
 						throw new Error(`Invalid JSON body: ${e.message}`);
