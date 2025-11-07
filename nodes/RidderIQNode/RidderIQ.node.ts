@@ -2,7 +2,7 @@ import { IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workfl
 import {
 	IExecuteFunctions,
 	INodeExecutionData,
-	//NodeOperationError
+	NodeOperationError
 } from 'n8n-workflow';
 
 export class RidderIQ implements INodeType {
@@ -119,26 +119,30 @@ export class RidderIQ implements INodeType {
 				}*/
 
 				// 4. Maak het API verzoek
-				const responseData = await this.helpers.httpRequest({method: method,
+				const response = await this.helpers.httpRequest({method: method,
 					url: url,
 					headers: headers,
 					body: body,
 					json: true});
-				/*const responseData = await this.helpers.httpRequestWithAuthentication.call(this, 'ridderIQApi', {
-					method: method,
-					url: url,
-					headers: headers,
-					body: body,
-					json: true,
-				});*/
+				if (response && response.statusCode && response.statusCode >= 400) {
+					throw new NodeOperationError(this.getNode(), `RidderIQ API returned status ${response.statusCode}`, {
+						description: JSON.stringify({
+							url,
+							method,
+							headers,
+							body,
+							response: response.body || response,
+						}, null, 2),
+					});
+				}
 
 				// 5. Voeg de respons toe aan de output
-				returnData.push(responseData);
+				returnData.push(response);
 
 			} catch (error) {
 				// Handelt fouten af en stuurt een foutmelding naar de workflow
 				if (this.continueOnFail()) {
-					returnData.push(error.message);
+					returnData.push(error.message, error.description);
 				} else {
 					throw error;
 				}
