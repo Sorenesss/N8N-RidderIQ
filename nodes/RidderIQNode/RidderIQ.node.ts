@@ -119,7 +119,7 @@ export class RidderIQ implements INodeType {
 				}*/
 
 				// 4. Maak het API verzoek
-				const responseData = this.helpers.httpRequest({method: method,
+				const responseData = await this.helpers.httpRequest({method: method,
 					url: url,
 					headers: headers,
 					body: body,
