@@ -3,7 +3,7 @@ import {
 	ICredentialType,
 	INodeProperties,
 	IHttpRequestMethods,
-	ICredentialTestRequest
+	ICredentialTestRequest,
 } from 'n8n-workflow';
 
 export class RidderIQApi implements ICredentialType {
@@ -19,15 +19,15 @@ export class RidderIQApi implements ICredentialType {
 			url: '/{{encodeURIComponent($credentials.tenantId)}}/{{encodeURIComponent($credentials.administrationId)}}/v2/crm/todos?page=1&size=1',
 			method: 'GET' as IHttpRequestMethods,
 			headers: {
-				Accept: 'application/json',
+				'Accept': 'application/json',
 				'X-API-KEY': '={{$credentials.apiKey}}',
 			},
 		},
 		rules: [
 			{
-				type: 'responseSuccessBody',
+				type: 'responseCode',
 				properties: {
-					key: 'result', value: true,
+					value: 200,
 					message: 'Connection successful — credentials are valid!',
 				},
 			},
