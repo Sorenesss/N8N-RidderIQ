@@ -1,4 +1,11 @@
-import { INodeType, INodeTypeDescription } from 'n8n-workflow';
+import { IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workflow';
+import {
+	IExecuteData,
+	IExecuteFunctions,
+	INodeProperties,
+	ICredentialData,
+	INodeExecutionData
+} from 'n8n-workflow';
 
 export class RidderIQ implements INodeType {
 	description: INodeTypeDescription = {
@@ -53,12 +60,82 @@ export class RidderIQ implements INodeType {
 				displayOptions: { show: { method: ['POST', 'PUT'] } },
 			},
 		],
-		requestDefaults: {
-			baseURL: '{{$credentials.baseURL}}/{{$credentials.TenantID}}/{{$credentials.AdministrationID}}/{{$parameter.version}}/{{$parameter.endpoint}}',
-			headers: {
-				Accept: 'application/json',
-				'Content-Type': 'application/json',
-			},
-		},
+		//requestDefaults: {
+		//	baseURL: '{{$credentials.baseURL}}/{{$credentials.TenantID}}/{{$credentials.AdministrationID}}/{{$parameter.version}}/{{$parameter.endpoint}}',
+		//	headers: {
+		//		Accept: 'application/json',
+		//		'Content-Type': 'application/json',
+		//	},
+		//},
 	};
+
+	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
+		const items = this.getInputData();
+		const returnData= [];
+
+		// Haal de credentials op
+		const credentials = await this.getCredentials('ridderIQApi');
+		
+		// Haal de basisgegevens uit de credentials
+		const baseUrl = credentials.baseUrl as string;
+		const tenantId = credentials.TenantID as string;
+		const administrationId = credentials.AdministrationId as string;
+		const apiKey = credentials.apiKey as string;
+
+		const encodedTenantId = encodeURIComponent(tenantId);
+		const encodedAdministrationId = encodeURIComponent(administrationId);
+
+		for (let i = 0; i < items.length; i++) {
+			try {
+				// Haal de waarden van de node properties op
+				const version = this.getNodeParameter('version', i) as string;
+				const resource = this.getNodeParameter('resource', i) as string;
+				const method = this.getNodeParameter('operation', i) as IHttpRequestMethods;
+				const bodyJson = this.getNodeParameter('bodyJson', i) as string;
+
+				// 1. Construct the complete URL
+				// Formaat: Base URL / API Versie / Tenant ID / Administratie ID / Resource
+				// Bv: https://api.ridderiq.com/v1/tenantIdValue/administrationIdValue/projects
+				const url = `${baseUrl}/${version}/${encodedAdministrationId}/${encodedAdministrationId}/${resource}`;
+
+				// 2. Construct the Headers
+				const headers = {
+					'Content-Type': 'application/json',
+					'X-API-KEY': apiKey, // API Key als custom header
+				};
+
+				// 3. Prepare the Body
+				let body: object = {};
+				if (method === 'POST' || method === 'PUT') {
+					try {
+						body = JSON.parse(bodyJson);
+					} catch (e) {
+						throw new Error(`Invalid JSON body: ${e.message}`);
+					}
+				}
+
+				// 4. Maak het API verzoek
+				const responseData = await this.helpers.httpRequestWithAuthentication.call(this, 'ridderIQApi', {
+					method: method,
+					url: url,
+					headers: headers,
+					body: body,
+					json: true,
+				});
+
+				// 5. Voeg de respons toe aan de output
+				returnData.push(responseData);
+
+			} catch (error) {
+				// Handelt fouten af en stuurt een foutmelding naar de workflow
+				if (this.continueOnFail()) {
+					returnData.push(error.message);
+				} else {
+					throw error;
+				}
+			}
+		}
+
+		return [this.helpers.returnJsonArray(returnData)];
+	}
 }
