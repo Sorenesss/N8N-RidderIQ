@@ -35,7 +35,7 @@ export class RidderIQ implements INodeType {
 				name: 'endpoint',
 				type: 'string',
 				default: '',
-				placeholder: 'todos',
+				placeholder: 'crm/todos',
 				description: 'The API endpoint to call.',
 			},
 			{
@@ -119,7 +119,7 @@ export class RidderIQ implements INodeType {
 				}*/
 
 				// 4. Maak het API verzoek
-				const responseData = await this.helpers.httpRequest.call(this, {
+				const responseData = await this.helpers.httpRequestWithAuthentication.call(this, 'ridderIQApi', {
 					method: method,
 					url: url,
 					headers: headers,
