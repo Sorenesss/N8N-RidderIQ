@@ -23,7 +23,7 @@ export class RidderIQApi implements ICredentialType {
 	test = {
 		request: {
 			baseURL: '={{$credentials.baseUrl}}',
-			url: '/{{$credentials.tenantId}}/{{$credentials.administrationId}}/v2/crm/todos?page=1&size=1',
+			url: '/{{encodeURIComponent($credentials.tenantId)}}/{{encodeURIComponent($credentials.administrationId)}}/v2/crm/todos?page=1&size=1',
 			method: 'GET' as IHttpRequestMethods,
 			headers: {
 				Accept: 'application/json',
