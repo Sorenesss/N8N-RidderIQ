@@ -209,7 +209,7 @@ export class RidderIQ implements INodeType {
 				} catch (error) {
 					throw new NodeApiError(this.getNode(), error as JsonObject);
 				}
-				if (response && response.statusCode && response.statusCode >= 400) {
+				/*if (response && response.statusCode && response.statusCode >= 400) {
 					throw new NodeOperationError(this.getNode(), `RidderIQ API returned status ${response.statusCode}`, {
 						description: JSON.stringify({
 							url,
@@ -219,7 +219,7 @@ export class RidderIQ implements INodeType {
 							response: response.body || response,
 						}, null, 2),
 					});
-				}
+				}*/
 
 				// 5. Voeg de respons toe aan de output
 				returnData.push(response);
