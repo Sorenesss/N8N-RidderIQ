@@ -76,8 +76,8 @@ export class RidderIQ implements INodeType {
 		
 		// Haal de basisgegevens uit de credentials
 		const baseUrl = credentials.baseUrl as string;
-		const tenantId = credentials.TenantID as string;
-		const administrationId = credentials.AdministrationId as string;
+		const tenantId = credentials.tenantID as string;
+		const administrationId = credentials.administrationId as string;
 		const apiKey = credentials.apiKey as string;
 
 		const encodedTenantId = encodeURIComponent(tenantId);
@@ -113,11 +113,11 @@ export class RidderIQ implements INodeType {
 					}
 				}
 
-				if(true){
-					throw new NodeOperationError(this.getNode(), 'RidderIQ API request failed — check your API key or URL.', {
-						description: `${headers}${url}`, // toon originele fout in details
-					});
-				}
+				//if(true){
+				//	throw new NodeOperationError(this.getNode(), 'RidderIQ API request failed — check your API key or URL.', {
+				//		description: `${headers}${url}`, // toon originele fout in details
+				//	});
+				//}
 
 				// 4. Maak het API verzoek
 				const responseData = await this.helpers.httpRequest.call(this, {
