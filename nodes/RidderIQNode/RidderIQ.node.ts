@@ -198,13 +198,17 @@ export class RidderIQ implements INodeType {
 				}*/
 
 				// 4. Maak het API verzoek
-				const response = await this.helpers.httpRequest({method: method,
+				let response = null;
+				try{
+				response = await this.helpers.httpRequest.call(this, {method: method,
 					url: url,
 					headers: headers,
 					body: body,
 					qs:{'size': additionalOptions.pageSize, 'page': additionalOptions.page},
 					json: true});
-				try{
+				} catch (error) {
+					throw new NodeApiError(this.getNode(), error as JsonObject);
+				}
 				if (response && response.statusCode && response.statusCode >= 400) {
 					throw new NodeOperationError(this.getNode(), `RidderIQ API returned status ${response.statusCode}`, {
 						description: JSON.stringify({
@@ -215,9 +219,6 @@ export class RidderIQ implements INodeType {
 							response: response.body || response,
 						}, null, 2),
 					});
-				}
-				} catch (error) {
-					throw new NodeApiError(this.getNode(), error as JsonObject);
 				}
 
 				// 5. Voeg de respons toe aan de output
