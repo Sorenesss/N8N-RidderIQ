@@ -27,14 +27,14 @@ export class RidderIQ implements INodeType {
 					{ name: 'v1', value: 'v1' },
 					{ name: 'v2', value: 'v2' },
 				],
-				default: 'v1',
+				default: 'v2',
 			},
 			{
 				displayName: 'Endpoint',
 				name: 'endpoint',
 				type: 'string',
-				default: 'projects',
-				placeholder: 'Enter API endpoint',
+				default: '',
+				placeholder: 'todos',
 				description: 'The API endpoint to call.',
 			},
 			{
@@ -97,7 +97,8 @@ export class RidderIQ implements INodeType {
 				// 2. Construct the Headers
 				const headers = {
 					'Content-Type': 'application/json',
-					'X-API-KEY': `'${apiKey}'`, // API Key als custom header
+					'Accept': 'application/json',
+					'X-API-KEY': apiKey, // API Key als custom header
 				};
 
 				// 3. Prepare the Body
