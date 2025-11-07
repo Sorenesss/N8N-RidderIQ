@@ -2,7 +2,7 @@ import { IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workfl
 import {
 	IExecuteFunctions,
 	INodeExecutionData,
-	NodeOperationError
+	//NodeOperationError
 } from 'n8n-workflow';
 
 export class RidderIQ implements INodeType {
