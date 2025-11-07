@@ -172,7 +172,7 @@ export class RidderIQ implements INodeType {
 						throw new NodeOperationError(this.getNode(), 'Page Size must not be greater than 200.');
 					}
 					qs.size = additionalOptions.pageSize;
-				} else if (method.toString() == 'GET') {
+				} else if (method === 'GET') {
 					qs.size = 20; // Standaard page size voor GET verzoeken
 				}
 				if (additionalOptions.page !== undefined) {
@@ -180,7 +180,7 @@ export class RidderIQ implements INodeType {
 						throw new NodeOperationError(this.getNode(), 'Page must be greater than zero.');
 					}
 					qs.page = additionalOptions.page;
-				} else if (method.toString() == 'GET') {
+				} else if (method === 'GET') {
 					qs.page = 1; // Standaard page nummer voor GET verzoeken
 				}
 				if (additionalOptions.filter !== undefined  && additionalOptions.filter !== '') {
