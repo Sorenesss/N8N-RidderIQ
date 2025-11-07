@@ -86,14 +86,14 @@ export class RidderIQ implements INodeType {
 			try {
 				// Haal de waarden van de node properties op
 				const version = this.getNodeParameter('version', i) as string;
-				const resource = this.getNodeParameter('resource', i) as string;
+				const endpoint = this.getNodeParameter('endpoint', i) as string;
 				const method = this.getNodeParameter('operation', i) as IHttpRequestMethods;
 				const bodyJson = this.getNodeParameter('bodyJson', i) as string;
 
 				// 1. Construct the complete URL
 				// Formaat: Base URL / API Versie / Tenant ID / Administratie ID / Resource
 				// Bv: https://api.ridderiq.com/v1/tenantIdValue/administrationIdValue/projects
-				const url = `${baseUrl}/${version}/${encodedTenantId}/${encodedAdministrationId}/${resource}`;
+				const url = `${baseUrl}/${encodedTenantId}/${encodedAdministrationId}/${version}/${endpoint}`;
 
 				// 2. Construct the Headers
 				const headers = {
