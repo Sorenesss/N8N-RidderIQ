@@ -57,7 +57,54 @@ export class RidderIQ implements INodeType {
 				default: '{}',
 				displayOptions: { show: { method: ['POST', 'PUT'] } },
 			},
-		],
+			{
+				displayName: 'Additional Options',
+				name: 'additionalOptions',
+				type: 'fixedCollection', // Gebruik fixedCollection om een set vaste velden te groeperen
+				default: {},
+				placeholder: 'Add Options',
+				description: 'Additional optional parameters for the API request.',
+				options: [
+					{
+						name: 'parameters',
+						displayName: 'Parameters',
+						values: [
+							{
+								displayName: 'Parameter Type',
+								name: 'parameterType',
+								type: 'options', // Een dropdown om het type property te kiezen
+								default: 'timeout',
+								options: [
+									{
+										name: 'Timeout (ms)',
+										value: 'timeout',
+										description: 'Set a custom request timeout in milliseconds.',
+									},
+									{
+										name: 'Return Raw Data',
+										value: 'returnRaw',
+										description: 'Do not attempt to parse the response JSON.',
+									},
+									// Je kunt hier meer RidderIQ-specifieke opties toevoegen!
+								],
+							},
+							{
+								displayName: 'Value',
+								name: 'value',
+								type: 'string',
+								default: '',
+								// Toon het waardevlak alleen als het GEEN boolean optie is
+								displayOptions: {
+									show: {
+										parameterType: ['timeout'], 
+									},
+								},
+							},
+						],
+					},
+				],
+			},
+		],	
 		//requestDefaults: {
 		//	baseURL: '{{$credentials.baseURL}}/{{$credentials.TenantID}}/{{$credentials.AdministrationID}}/{{$parameter.version}}/{{$parameter.endpoint}}',
 		//	headers: {
@@ -66,6 +113,7 @@ export class RidderIQ implements INodeType {
 		//	},
 		//},
 	};
+	
 
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
