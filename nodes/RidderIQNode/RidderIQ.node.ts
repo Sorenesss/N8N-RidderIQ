@@ -123,6 +123,7 @@ export class RidderIQ implements INodeType {
 					url: url,
 					headers: headers,
 					body: body,
+					qs:{'size': 20, 'page': 1},
 					json: true});
 				if (response && response.statusCode && response.statusCode >= 400) {
 					throw new NodeOperationError(this.getNode(), `RidderIQ API returned status ${response.statusCode}`, {
