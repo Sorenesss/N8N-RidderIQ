@@ -2,7 +2,8 @@ import {
 	Icon,
 	ICredentialType,
 	INodeProperties,
-	IHttpRequestMethods
+	IHttpRequestMethods,
+	ICredentialTestRequest
 } from 'n8n-workflow';
 
 export class RidderIQApi implements ICredentialType {
@@ -20,7 +21,7 @@ export class RidderIQApi implements ICredentialType {
 	};
 
 	// ---- CONNECTIVITY TEST ----
-	test = {
+	test: ICredentialTestRequest = {
 		request: {
 			baseURL: '={{$credentials.baseUrl}}',
 			url: '/{{encodeURIComponent($credentials.tenantId)}}/{{encodeURIComponent($credentials.administrationId)}}/v2/crm/todos?page=1&size=1',
@@ -30,6 +31,15 @@ export class RidderIQApi implements ICredentialType {
 				'X-API-KEY': '={{$credentials.apiKey}}',
 			},
 		},
+		rules: [
+			{
+				type: 'responseSuccessBody',
+				properties: {
+					key: 'result', value: true,
+					message: 'Connection successful — credentials are valid!',
+				},
+			},
+		],
 	};
 	properties: INodeProperties[] = [
 		{
