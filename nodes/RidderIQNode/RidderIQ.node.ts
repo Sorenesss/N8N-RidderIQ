@@ -1,4 +1,4 @@
-import { IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workflow';
+import { IHttpRequestMethods, INodeType, INodeTypeDescription, JsonObject } from 'n8n-workflow';
 import {
 	IExecuteFunctions,
 	INodeExecutionData,
@@ -217,7 +217,7 @@ export class RidderIQ implements INodeType {
 					});
 				}
 				} catch (error) {
-					throw new NodeApiError(this.getNode(), error);
+					throw new NodeApiError(this.getNode(), error as JsonObject);
 				}
 
 				// 5. Voeg de respons toe aan de output
