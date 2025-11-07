@@ -10,6 +10,7 @@ export class RidderIQ implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'RidderIQ',
 		name: 'ridderIQ',
+		documentationUrl: 'https://api.eciridderiq.com/v2/index.html',
         icon: { light: 'file:../../icons/ridderiq.svg', dark: 'file:../../icons/ridderiq.svg' },
 		group: ['transform'],
 		version: 1,
@@ -32,14 +33,6 @@ export class RidderIQ implements INodeType {
 				default: 'v2',
 			},
 			{
-				displayName: 'Endpoint',
-				name: 'endpoint',
-				type: 'string',
-				default: '',
-				placeholder: 'crm/todos',
-				description: 'The API endpoint to call.',
-			},
-			{
 				displayName: 'HTTP Method',
 				name: 'method',
 				type: 'options',
@@ -50,6 +43,14 @@ export class RidderIQ implements INodeType {
 					{ name: 'DELETE', value: 'DELETE', routing: {request: {method: 'DELETE'}} },
 				],
 				default: 'GET',
+			},
+			{
+				displayName: 'Endpoint',
+				name: 'endpoint',
+				type: 'string',
+				default: '',
+				placeholder: 'crm/todos',
+				description: 'The API endpoint to call.',
 			},
 			{
 				displayName: 'Body',
@@ -191,12 +192,6 @@ export class RidderIQ implements INodeType {
 					qs.sort = encodeURIComponent(additionalOptions.sort);
 				}
 
-				/*if(true){
-					throw new NodeOperationError(this.getNode(), 'RidderIQ API request failed — check your API key or URL.', {
-						description: `URL: ${url}\nHeaders: ${JSON.stringify(headers, null, 2)}`
-					});
-				}*/
-
 				// 4. Maak het API verzoek
 				let response = null;
 				try{
@@ -209,17 +204,6 @@ export class RidderIQ implements INodeType {
 				} catch (error) {
 					throw new NodeApiError(this.getNode(), error as JsonObject);
 				}
-				/*if (response && response.statusCode && response.statusCode >= 400) {
-					throw new NodeOperationError(this.getNode(), `RidderIQ API returned status ${response.statusCode}`, {
-						description: JSON.stringify({
-							url,
-							method,
-							headers,
-							body,
-							response: response.body || response,
-						}, null, 2),
-					});
-				}*/
 
 				// 5. Voeg de respons toe aan de output
 				returnData.push(response);
