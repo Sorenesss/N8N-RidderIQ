@@ -60,34 +60,43 @@ export class RidderIQ implements INodeType {
 			{
 				displayName: 'Additional Options',
 				name: 'additionalOptions',
-				type: 'fixedCollection', // Gebruik fixedCollection om een set vaste velden te groeperen
+				type: 'fixedCollection',
+				placeholder: 'Add Option',
 				default: {},
-				placeholder: 'Add Options',
-				description: 'Additional optional parameters for the API request.',
+				typeOptions: {
+					multipleValues: false, // true if you want multiple sets of options
+				},
 				options: [
 					{
-						displayName: 'Page',
-						name: 'page',
-						type: 'number',
-						default: 1,
-						description: 'Page number for paginated endpoints.',
-					},
-					{
-						displayName: 'Page Size',
-						name: 'pageSize',
-						type: 'number',
-						default: 20,
-						description: 'Number of items per page (if supported).',
-					},
-					{
-						displayName: 'Filter',
-						name: 'filter',
-						type: 'string',
-						default: '',
-						description: 'Optional filter to apply.',
+						displayName: 'Optional Parameters',
+						name: 'parameters', // this is the key you will use to get the values
+						values: [
+							{
+								displayName: 'Page',
+								name: 'page',
+								type: 'number',
+								default: 1,
+								description: 'Page number for paginated endpoints.',
+							},
+							{
+								displayName: 'Page Size',
+								name: 'pageSize',
+								type: 'number',
+								default: 20,
+								description: 'Number of items per page (if supported).',
+							},
+							{
+								displayName: 'Filter',
+								name: 'filter',
+								type: 'string',
+								default: '',
+								description: 'Optional filter to apply.',
+							},
+						],
 					},
 				],
 			},
+
 		],	
 		//requestDefaults: {
 		//	baseURL: '{{$credentials.baseURL}}/{{$credentials.TenantID}}/{{$credentials.AdministrationID}}/{{$parameter.version}}/{{$parameter.endpoint}}',
