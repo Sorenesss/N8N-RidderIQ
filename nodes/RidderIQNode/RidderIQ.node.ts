@@ -66,41 +66,25 @@ export class RidderIQ implements INodeType {
 				description: 'Additional optional parameters for the API request.',
 				options: [
 					{
-						name: 'parameters',
-						displayName: 'Parameters',
-						values: [
-							{
-								displayName: 'Parameter Type',
-								name: 'parameterType',
-								type: 'options', // Een dropdown om het type property te kiezen
-								default: 'timeout',
-								options: [
-									{
-										name: 'Timeout (ms)',
-										value: 'timeout',
-										description: 'Set a custom request timeout in milliseconds.',
-									},
-									{
-										name: 'Return Raw Data',
-										value: 'returnRaw',
-										description: 'Do not attempt to parse the response JSON.',
-									},
-									// Je kunt hier meer RidderIQ-specifieke opties toevoegen!
-								],
-							},
-							{
-								displayName: 'Value',
-								name: 'value',
-								type: 'string',
-								default: '',
-								// Toon het waardevlak alleen als het GEEN boolean optie is
-								displayOptions: {
-									show: {
-										parameterType: ['timeout'], 
-									},
-								},
-							},
-						],
+						displayName: 'Page',
+						name: 'page',
+						type: 'number',
+						default: 1,
+						description: 'Page number for paginated endpoints.',
+					},
+					{
+						displayName: 'Page Size',
+						name: 'pageSize',
+						type: 'number',
+						default: 20,
+						description: 'Number of items per page (if supported).',
+					},
+					{
+						displayName: 'Filter',
+						name: 'filter',
+						type: 'string',
+						default: '',
+						description: 'Optional filter to apply.',
 					},
 				],
 			},
@@ -137,6 +121,11 @@ export class RidderIQ implements INodeType {
 				const version = this.getNodeParameter('version', i) as string;
 				const endpoint = this.getNodeParameter('endpoint', i) as string;
 				const method = this.getNodeParameter('method', i) as IHttpRequestMethods;
+				const additionalOptions = this.getNodeParameter('additionalOptions', i, {}) as {
+					page?: number;
+					pageSize?: number;
+					filter?: string;
+				};
 
 				// 1. Construct the complete URL
 				// Formaat: Base URL / API Versie / Tenant ID / Administratie ID / Resource
@@ -171,7 +160,7 @@ export class RidderIQ implements INodeType {
 					url: url,
 					headers: headers,
 					body: body,
-					qs:{'size': 20, 'page': 1},
+					qs:{'size': additionalOptions.pageSize, 'page': additionalOptions.page},
 					json: true});
 				if (response && response.statusCode && response.statusCode >= 400) {
 					throw new NodeOperationError(this.getNode(), `RidderIQ API returned status ${response.statusCode}`, {
