@@ -70,6 +70,7 @@ export class RidderIQ implements INodeType {
 						type: 'number',
 						default: 1,
 						description: 'Page number for paginated endpoints.',
+						displayOptions: { show: { method: ['GET'] } },
 					},
 					{
 						displayName: 'Page Size',
@@ -77,6 +78,7 @@ export class RidderIQ implements INodeType {
 						type: 'number',
 						default: 20,
 						description: 'Number of items per page (if supported).',
+						displayOptions: { show: { method: ['GET'] } },
 					},
 					{
 						displayName: 'Filter',
@@ -84,17 +86,15 @@ export class RidderIQ implements INodeType {
 						type: 'string',
 						default: '',
 						description: 'Optional filter to apply.',
+						displayOptions: { show: { method: ['GET'] } },
 					},
 					{
 						displayName: 'Sort',
 						name: 'sort',
-						type: 'options',
-						options: [
-							{ name: 'Ascending', value: 'asc' },
-							{ name: 'Descending', value: 'desc' },
-						],
-						default: 'asc',
+						type: 'string',
+						default: 'id.asc',
 						description: 'Sort order for results.',
+						displayOptions: { show: { method: ['GET'] } },
 					},
 				],
 			},
