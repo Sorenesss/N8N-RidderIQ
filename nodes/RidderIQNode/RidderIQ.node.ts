@@ -113,6 +113,12 @@ export class RidderIQ implements INodeType {
 					}
 				}
 
+				if(true){
+					throw new NodeOperationError(this.getNode(), 'RidderIQ API request failed — check your API key or URL.', {
+						description: `${headers}${url}`, // toon originele fout in details
+					});
+				}
+
 				// 4. Maak het API verzoek
 				const responseData = await this.helpers.httpRequest.call(this, {
 					method: method,
@@ -121,12 +127,6 @@ export class RidderIQ implements INodeType {
 					body: body,
 					json: true,
 				});
-
-				if(responseData.success === false){
-					throw new NodeOperationError(this.getNode(), 'RidderIQ API request failed — check your API key or URL.', {
-						description: `${headers}${url}`, // toon originele fout in details
-					});
-				}
 
 				// 5. Voeg de respons toe aan de output
 				returnData.push(responseData);
