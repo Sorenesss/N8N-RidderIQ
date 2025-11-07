@@ -1,9 +1,6 @@
 import { IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workflow';
 import {
-	IExecuteData,
 	IExecuteFunctions,
-	INodeProperties,
-	ICredentialData,
 	INodeExecutionData
 } from 'n8n-workflow';
 
@@ -96,7 +93,7 @@ export class RidderIQ implements INodeType {
 				// 1. Construct the complete URL
 				// Formaat: Base URL / API Versie / Tenant ID / Administratie ID / Resource
 				// Bv: https://api.ridderiq.com/v1/tenantIdValue/administrationIdValue/projects
-				const url = `${baseUrl}/${version}/${encodedAdministrationId}/${encodedAdministrationId}/${resource}`;
+				const url = `${baseUrl}/${version}/${encodedTenantId}/${encodedAdministrationId}/${resource}`;
 
 				// 2. Construct the Headers
 				const headers = {
