@@ -80,8 +80,8 @@ export class RidderIQ implements INodeType {
 		const administrationId = credentials.administrationId as string;
 		const apiKey = credentials.apiKey as string;
 
-		const encodedTenantId = encodeURIComponent(tenantId);
-		const encodedAdministrationId = encodeURIComponent(administrationId);
+		const encodedTenantId = encodeURIComponent(tenantId.trim());
+		const encodedAdministrationId = encodeURIComponent(administrationId.trim());
 
 		for (let i = 0; i < items.length; i++) {
 			try {
@@ -93,12 +93,12 @@ export class RidderIQ implements INodeType {
 				// 1. Construct the complete URL
 				// Formaat: Base URL / API Versie / Tenant ID / Administratie ID / Resource
 				// Bv: https://api.ridderiq.com/v1/tenantIdValue/administrationIdValue/projects
-				const url = `${baseUrl}/${encodedTenantId}/${encodedAdministrationId}/${version}/${endpoint}`;
+				const url = `${baseUrl}/${encodedTenantId}/${encodedAdministrationId}/${version}/${endpoint.trim()}`;
 
 				// 2. Construct the Headers
 				const headers = {
 					'Accept': 'application/json',
-					'X-API-KEY': apiKey, // API Key als custom header
+					'X-API-KEY': apiKey.trim(), // API Key als custom header
 				};
 
 				// 3. Prepare the Body
