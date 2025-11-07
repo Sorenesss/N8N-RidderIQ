@@ -1,7 +1,8 @@
 import { IHttpRequestMethods, INodeType, INodeTypeDescription } from 'n8n-workflow';
 import {
 	IExecuteFunctions,
-	INodeExecutionData
+	INodeExecutionData,
+	NodeOperationError
 } from 'n8n-workflow';
 
 export class RidderIQ implements INodeType {
@@ -120,6 +121,12 @@ export class RidderIQ implements INodeType {
 					body: body,
 					json: true,
 				});
+
+				if(responseData.success === false){
+					throw new NodeOperationError(this.getNode(), 'RidderIQ API request failed — check your API key or URL.', {
+						description: `${headers}${url}`, // toon originele fout in details
+					});
+				}
 
 				// 5. Voeg de respons toe aan de output
 				returnData.push(responseData);
