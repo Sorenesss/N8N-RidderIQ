@@ -21,6 +21,7 @@ export class RidderIQ implements INodeType {
 		credentials: [
 			{ name: 'ridderIQApi', required: true }
 		],
+		usableAsTool: true,
 		properties: [
 			{
 				displayName: 'API Version',
