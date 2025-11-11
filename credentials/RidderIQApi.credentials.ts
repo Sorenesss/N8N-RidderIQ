@@ -20,7 +20,6 @@ export class RidderIQApi implements ICredentialType {
 				'X-API-KEY': '={{$credentials.apiKey}}',
 				'Accept': 'application/json',
 			},
-			url: '={{$credentials.baseUrl}}/{{encodeURIComponent($credentials.tenantId)}}/{{encodeURIComponent($credentials.administrationId)}}/v2/',
 		},
 	};
 
