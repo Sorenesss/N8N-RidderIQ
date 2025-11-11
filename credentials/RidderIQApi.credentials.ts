@@ -4,6 +4,7 @@ import {
 	INodeProperties,
 	IHttpRequestMethods,
 	ICredentialTestRequest,
+	IAuthenticateGeneric
 } from 'n8n-workflow';
 
 export class RidderIQApi implements ICredentialType {
@@ -11,6 +12,16 @@ export class RidderIQApi implements ICredentialType {
 	displayName = 'RidderIQ API';
 	icon: Icon = { light: 'file:../../n8n-nodes-ridderiq/icons/ridderiq.svg', dark: 'file:../../n8n-nodes-ridderiq/icons/ridderiq.svg' };
 	documentationUrl = 'https://api.eciridderiq.com/v2/index.html';
+
+	authenticate: IAuthenticateGeneric = {
+		type: 'generic',
+		properties: {
+			headers: {
+				'X-API-KEY': '={{$credentials.apiKey}}',
+				'Accept': 'application/json',
+			},
+		},
+	};
 
 	// ---- CONNECTIVITY TEST ----
 	test: ICredentialTestRequest = {

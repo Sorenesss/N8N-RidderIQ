@@ -32,6 +32,7 @@ export class RidderIQ implements INodeType {
 					{ name: 'v2', value: 'v2' },
 				],
 				default: 'v2',
+				required: true
 			},
 			{
 				displayName: 'HTTP Method',
@@ -44,6 +45,7 @@ export class RidderIQ implements INodeType {
 					{ name: 'DELETE', value: 'DELETE', routing: {request: {method: 'DELETE'}} },
 				],
 				default: 'GET',
+				required: true
 			},
 			{
 				displayName: 'Endpoint',
@@ -52,6 +54,7 @@ export class RidderIQ implements INodeType {
 				default: '',
 				placeholder: 'crm/todos',
 				description: 'The API endpoint to call.',
+				required: true
 			},
 			{
 				displayName: 'Body',
@@ -60,6 +63,7 @@ export class RidderIQ implements INodeType {
 				type: 'json',
 				default: '{}',
 				displayOptions: { show: { method: ['POST', 'PUT'] } },
+				required: true
 			},
 			{
 				displayName: 'Additional Options',

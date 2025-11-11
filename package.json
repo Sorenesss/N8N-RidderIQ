@@ -1,11 +1,11 @@
 {
 	"name": "n8n-nodes-ridderiq",
-	"version": "0.1.0",
-	"description": "",
+	"version": "1.0.0",
+	"description": "RidderIQ API integration for n8n",
 	"license": "MIT",
 	"homepage": "",
 	"keywords": [
-		"n8n-community-node-package"
+		"n8n", "n8n-community-node", "ridderiq", "api"
 	],
 	"author": {
 		"name": "Reinout van Geresteijn",
@@ -27,6 +27,10 @@
 	"files": [
 		"dist"
 	],
+	"publishConfig": {
+		"access": "public"
+	},
+	"main": "dist/index.js",
 	"n8n": {
 		"n8nNodesApiVersion": 1,
 		"strict": true,
