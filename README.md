@@ -16,19 +16,14 @@ git clone https://<token>@github.com/Sorenesss/N8N-RidderIQ.git
 cd N8N-RidderIQ
 ```
 
-3. **Make the deployment script executable**:
+3. **Run the deployment script**:
 
 ```bash
 chmod +x deploy-node.sh
-```
-
-4. **Run the deployment script**:
-
-```bash
 ./deploy-node.sh
 ```
 
-5. **Clean up (optional)**:
+4. **Clean up (optional)**:
 
 ```bash
 cd ..
