@@ -115,14 +115,14 @@ export class RidderIQ implements INodeType {
 						name: 'filterMode',
 						type: 'options',
 						options: [
-							{ name: 'Simple (UI Builder)', value: 'simple' },
-							{ name: 'Advanced (Text)', value: 'advanced' },
+							{ name: 'Filter Builder (simple)', value: 'simple' },
+							{ name: 'Filter Query (advanced)', value: 'advanced' },
 						],
 						default: 'simple',
 						description: 'Choose between simple UI builder or advanced text format for complex filter combinations.',
 					},
 					{
-						displayName: 'Filter(s)',
+						displayName: 'Filter Builder',
 						name: 'filters',
 						description: 'Optional filter(s) to apply.',
 						type: 'fixedCollection',
@@ -135,8 +135,7 @@ export class RidderIQ implements INodeType {
 								{
 									field: '',
 									operator: 'eq',
-									value: '',
-									value2: '',
+									value: ''
 								},
 							],
 						},
@@ -205,22 +204,21 @@ export class RidderIQ implements INodeType {
 						],
 					},
 					{
-						displayName: 'Advanced Filter Query',
-						name: 'advancedFilterQuery',
-						type: 'string',
-						typeOptions: {
-							rows: 6,
-						},
-						default: '',
-						placeholder: '(name LIKE "%John%" AND age >= 18) OR status = "active"',
-						description: 'Enter your filter query using field names, operators (=, !=, >, >=, <, <=, LIKE, IN, BETWEEN), and logical operators (AND, OR). Use parentheses for complex combinations.',
-						displayOptions: {
-							show: {
-								filterMode: ['advanced'],
-							},
-						},
-					}
-
+                        displayName: 'Filter Query',
+                        name: 'advancedFilterQuery',
+                        type: 'string',
+                        typeOptions: {
+                            rows: 4,
+                        },
+                        default: '',
+                        placeholder: 'name=="test" AND age>20',
+                        description: 'Enter your RSQL/Filter query manually.',
+                        displayOptions: {
+                            show: {
+                                filterMode: ['advanced'],
+                            },
+                        },
+                    },
 				],
 			},
 		],	
@@ -251,9 +249,11 @@ export class RidderIQ implements INodeType {
 				const method = this.getNodeParameter('method', i) as IHttpRequestMethods;
 				const additionalOptions = this.getNodeParameter('additionalOptions', i, {}) as {
 					page?: number;
-					pageSize?: number;
-					filter?: string;
-					sort?: string;
+                    pageSize?: number;
+                    sort?: string;
+                    filterMode?: string;
+                    filters?: { filter: Array<{ field: string, operator: string, value: string }> };
+                    advancedFilterQuery?: string;
 				};
 
 				// 1. Construct the complete URL
@@ -278,33 +278,64 @@ export class RidderIQ implements INodeType {
 					}
 				}
 
-				const qs: Record<string, unknown> = {};
+				const qs: JsonObject = {};
 
-				// Voeg alleen toe als niet leeg of undefined
-				if (additionalOptions.pageSize !== undefined) {
-					if (additionalOptions.pageSize<=0) {
-						throw new NodeOperationError(this.getNode(), 'Page Size must be greater than 0.');
-					} else if (additionalOptions.pageSize>200) {
-						throw new NodeOperationError(this.getNode(), 'Page Size must not be greater than 200.');
-					}
-					qs.size = additionalOptions.pageSize;
-				} else if (method === 'GET') {
-					qs.size = 20; // Standaard page size voor GET verzoeken
-				}
-				if (additionalOptions.page !== undefined) {
-					if (additionalOptions.page<=0) {
-						throw new NodeOperationError(this.getNode(), 'Page must be greater than zero.');
-					}
-					qs.page = additionalOptions.page;
-				} else if (method === 'GET') {
-					qs.page = 1; // Standaard page nummer voor GET verzoeken
-				}
-				if (additionalOptions.filter !== undefined  && additionalOptions.filter !== '') {
-					qs.filter = encodeURIComponent(additionalOptions.filter);
-				}
-				if (additionalOptions.sort != undefined && additionalOptions.sort !== '') {
-					qs.sort = encodeURIComponent(additionalOptions.sort);
-				}
+				if (additionalOptions.pageSize) {
+                    if (additionalOptions.pageSize <= 0 || additionalOptions.pageSize > 200) {
+                        throw new NodeOperationError(this.getNode(), 'Page Size must be between 1 and 200.');
+                    }
+                    qs.size = additionalOptions.pageSize;
+                } else if (method === 'GET') {
+                    qs.size = 20;
+                }
+
+                if (additionalOptions.page) {
+                     if (additionalOptions.page <= 0) throw new NodeOperationError(this.getNode(), 'Page must be > 0');
+                    qs.page = additionalOptions.page;
+                } else if (method === 'GET') {
+                    qs.page = 1;
+                }
+
+                if (additionalOptions.sort) {
+                    qs.sort = additionalOptions.sort;
+                }
+
+                // --- FILTER LOGICA (Nu opgehaald uit additionalOptions) ---
+                if (method === 'GET' && additionalOptions.filterMode) {
+                    let filterString = '';
+
+                    if (additionalOptions.filterMode === 'simple' && additionalOptions.filters && additionalOptions.filters.filter) {
+                        const parts = [];
+                        for (const item of additionalOptions.filters.filter) {
+                            if (item.field) {
+                                let op = '';
+                                let val = item.value;
+                                
+                                switch(item.operator) {
+                                    case 'eq': op = '=='; break;
+                                    case 'ne': op = '!='; break;
+                                    case 'gt': op = '>'; break;
+                                    case 'gte': op = '>='; break;
+                                    case 'lt': op = '<'; break;
+                                    case 'lte': op = '<='; break;
+                                    case 'like': op = '=='; val = `*${val}*`; break; 
+                                    default: op = '==';
+                                }
+                                parts.push(`${item.field}${op}"${val}"`);
+                            }
+                        }
+                        if (parts.length > 0) {
+                            filterString = parts.join(';'); // AND logic
+                        }
+
+                    } else if (additionalOptions.filterMode === 'advanced' && additionalOptions.advancedFilterQuery) {
+                        filterString = additionalOptions.advancedFilterQuery;
+                    }
+
+                    if (filterString) {
+                        qs.filter = filterString;
+                    }
+                }
 
 				// 4. Maak het API verzoek
 				let response = null;
@@ -313,7 +344,7 @@ export class RidderIQ implements INodeType {
 					url: url,
 					headers: headers,
 					body: body,
-					qs:{'size': additionalOptions.pageSize, 'page': additionalOptions.page},
+					qs:qs,
 					json: true});
 				} catch (error) {
 					throw new NodeApiError(this.getNode(), error as JsonObject);
