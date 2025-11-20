@@ -143,11 +143,6 @@ export class RidderIQ implements INodeType {
 										name: 'closeBracketBefore',
 										type: 'boolean',
 										default: false,
-										displayOptions: {
-                                            hide: {
-                                                '$index': [0],
-                                            },
-                                        },
 									},
 									{
 										displayName: 'Logical Operator',
@@ -158,11 +153,6 @@ export class RidderIQ implements INodeType {
 											{ name: 'OR', value: 'or' },
 										],
 										default: 'and',
-										displayOptions: {
-                                            hide: {
-                                                '$index': [0],
-                                            },
-                                        },
 									},
 									{
 										displayName: 'Open Brackets',
@@ -225,11 +215,6 @@ export class RidderIQ implements INodeType {
 										name: 'closeBracketAfter',
 										type: 'boolean',
 										default: false,
-										displayOptions: {
-                                            hide: {
-                                                '$index': [0],
-                                            },
-                                        },
 									},
 								],
 							},
