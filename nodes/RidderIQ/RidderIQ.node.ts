@@ -222,7 +222,7 @@ export class RidderIQ implements INodeType {
 		const returnData= [];
 
 		// Haal de credentials op
-		const credentials = await this.getCredentials('ridderIQApi');
+		const credentials = await this.getCredentials('ridderIQ');
 		
 		// Haal de basisgegevens uit de credentials
 		const baseUrl = credentials.baseUrl as string;
