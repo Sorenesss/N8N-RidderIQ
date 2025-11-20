@@ -1,11 +1,15 @@
 {
 	"name": "n8n-nodes-ridderiq",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "RidderIQ API integration for n8n",
 	"license": "MIT",
 	"homepage": "",
 	"keywords": [
-		"n8n", "n8n-community-node", "ridderiq", "api", "n8n-community-node-package"
+		"n8n",
+		"n8n-community-node",
+		"ridderiq",
+		"api",
+		"n8n-community-node-package"
 	],
 	"author": {
 		"name": "soreness",
