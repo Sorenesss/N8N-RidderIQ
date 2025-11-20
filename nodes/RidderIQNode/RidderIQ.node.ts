@@ -111,55 +111,45 @@ export class RidderIQ implements INodeType {
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
+						displayName: 'Filter Mode',
+						name: 'filterMode',
+						type: 'options',
+						options: [
+							{ name: 'Simple (UI Builder)', value: 'simple' },
+							{ name: 'Advanced (Text)', value: 'advanced' },
+						],
+						default: 'simple',
+						description: 'Choose between simple UI builder or advanced text format for complex filter combinations.',
+					},
+					{
 						displayName: 'Filter(s)',
 						name: 'filters',
 						description: 'Optional filter(s) to apply.',
 						type: 'fixedCollection',
 						typeOptions: {
-							multipleValues: true, // meerdere filters
-							multipleValueButtonText: 'Add another filter',
+							multipleValues: true,
+							multipleValueButtonText: 'Add Filter',
 						},
 						default: {
 							filter: [
 								{
-									closeBracketBefore: false,
-									logicalOperator: 'and',
-									openBracketsBefore: false,
 									field: '',
 									operator: 'eq',
 									value: '',
 									value2: '',
-									closeBracketAfter: false,
 								},
 							],
+						},
+						displayOptions: {
+							show: {
+								filterMode: ['simple'],
+							},
 						},
 						options: [
 							{
 								name: 'filter',
 								displayName: 'Filter',
 								values: [
-									{
-										displayName: 'Close Brackets',
-										name: 'closeBracketBefore',
-										type: 'boolean',
-										default: false,
-									},
-									{
-										displayName: 'Logical Operator',
-										name: 'logicalOperator',
-										type: 'options',
-										options: [
-											{ name: 'AND', value: 'and' },
-											{ name: 'OR', value: 'or' },
-										],
-										default: 'and',
-									},
-									{
-										displayName: 'Open Brackets',
-										name: 'openBracketBefore',
-										type: 'boolean',
-										default: false,
-									},
 									{
 										displayName: 'Field',
 										name: 'field',
@@ -209,16 +199,26 @@ export class RidderIQ implements INodeType {
 												operator: ['between'],
 											},
 										},
-									},
-									{
-										displayName: 'Close Brackets',
-										name: 'closeBracketAfter',
-										type: 'boolean',
-										default: false,
-									},
+									}
 								],
 							},
 						],
+					},
+					{
+						displayName: 'Advanced Filter Query',
+						name: 'advancedFilterQuery',
+						type: 'string',
+						typeOptions: {
+							rows: 6,
+						},
+						default: '',
+						placeholder: '(name LIKE "%John%" AND age >= 18) OR status = "active"',
+						description: 'Enter your filter query using field names, operators (=, !=, >, >=, <, <=, LIKE, IN, BETWEEN), and logical operators (AND, OR). Use parentheses for complex combinations.',
+						displayOptions: {
+							show: {
+								filterMode: ['advanced'],
+							},
+						},
 					}
 
 				],
