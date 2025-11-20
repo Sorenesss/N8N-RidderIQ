@@ -93,15 +93,6 @@ export class RidderIQ implements INodeType {
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
-						displayName: 'Filter',
-						name: 'filter',
-						type: 'string',
-						default: '',
-						description: 'Optional filter to apply.',
-						required: false
-						//displayOptions: { show: { method: ['GET'] } },
-					},
-					{
 						displayName: 'Sort',
 						name: 'sort',
 						type: 'string',
@@ -135,7 +126,8 @@ export class RidderIQ implements INodeType {
 								{
 									field: '',
 									operator: 'eq',
-									value: ''
+									value: '',
+									value2: ''
 								},
 							],
 						},
@@ -187,7 +179,7 @@ export class RidderIQ implements INodeType {
 										required: false,
 									},
 									{
-										displayName: 'Value 2 (optional)',
+										displayName: 'Value 2',
 										name: 'value2',
 										type: 'string',
 										default: '',
@@ -252,7 +244,7 @@ export class RidderIQ implements INodeType {
                     pageSize?: number;
                     sort?: string;
                     filterMode?: string;
-                    filters?: { filter: Array<{ field: string, operator: string, value: string }> };
+                    filters?: { filter: Array<{ field: string, operator: string, value: string, value2: string }> };
                     advancedFilterQuery?: string;
 				};
 
@@ -306,26 +298,59 @@ export class RidderIQ implements INodeType {
 
                     if (additionalOptions.filterMode === 'simple' && additionalOptions.filters && additionalOptions.filters.filter) {
                         const parts = [];
-                        for (const item of additionalOptions.filters.filter) {
-                            if (item.field) {
-                                let op = '';
-                                let val = item.value;
-                                
-                                switch(item.operator) {
-                                    case 'eq': op = '=='; break;
-                                    case 'ne': op = '!='; break;
-                                    case 'gt': op = '>'; break;
-                                    case 'gte': op = '>='; break;
-                                    case 'lt': op = '<'; break;
-                                    case 'lte': op = '<='; break;
-                                    case 'like': op = '=='; val = `*${val}*`; break; 
-                                    default: op = '==';
-                                }
-                                parts.push(`${item.field}${op}"${val}"`);
+                        
+                        // Functie om stringwaarden te quoten, tenzij het puur nummers, booleans of functies zijn
+                        const quoteValue = (val: string): string => {
+                             if (!val) return '""'; // Lege string
+                            
+                            // Check of het een nummer, boolean of dynamische functie is
+                            if (/^\d+(\.\d+)?$/.test(val) || /^(true|false)$/i.test(val) || /\w+\(\s*.*\s*\)/.test(val)) {
+                                return val; // Laat staan
                             }
+                            
+                            // Anders: quote de string en escape interne quotes
+                            return `"${val.replace(/"/g, '\\"')}"`;
+                        };
+                        
+                        // Hier mappen we de n8n UI filters naar de RidderIQ filter syntax
+                        for (const item of additionalOptions.filters.filter) {
+                            const { field, operator, value, value2 } = item;
+                            
+                            if (!field || !value) continue;
+
+                            let formattedValue = '';
+                            const lowerCaseOp = operator.toLowerCase();
+
+                            if (lowerCaseOp === 'between') {
+                                // BETWEEN gebruikt (value1, value2)
+                                if (!value2) continue; // Skip als value2 mist
+                                
+                                // Quoten is hier lastig omdat de API mogelijk een mix van types verwacht,
+                                // maar de API docs tonen voor data/ID's geen quotes in de paren.
+                                // We quoten alleen als de waarde duidelijk een string is. We gebruiken de ruwe waarden hier.
+                                formattedValue = `(${quoteValue(value)}, ${quoteValue(value2)})`;
+
+                            } else if (lowerCaseOp === 'in') {
+                                // IN verwacht een lijst (value1, value2, ...)
+                                // De gebruiker moet de lijst waarschijnlijk zelf als string '(1, "A", 3)' in het 'Value' veld invoeren.
+                                formattedValue = value; 
+                                if (!formattedValue.startsWith('(') || !formattedValue.endsWith(')')) {
+                                     // Dwing de paren af als de gebruiker ze vergeten is
+                                     formattedValue = `(${value})`;
+                                }
+                                
+                            } else {
+                                // Standaard operators (eq, gt, like, etc.)
+                                formattedValue = quoteValue(value);
+                            }
+
+                            // De filter string opbouwen: propertyName[operator]formattedValue
+                            parts.push(`${field}[${operator}]${formattedValue}`);
                         }
+                        
                         if (parts.length > 0) {
-                            filterString = parts.join(';'); // AND logic
+                            // Verbind filters met 'and'
+                            filterString = parts.join(' and ');
                         }
 
                     } else if (additionalOptions.filterMode === 'advanced' && additionalOptions.advancedFilterQuery) {
