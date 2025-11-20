@@ -79,6 +79,7 @@ export class RidderIQ implements INodeType {
 						placeholder: 'crm/todos',
 						default: 1,
 						description: 'Page number for paginated endpoints.',
+						required: true
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
@@ -87,6 +88,7 @@ export class RidderIQ implements INodeType {
 						type: 'number',
 						default: 20,
 						description: 'Number of items per page (if supported).',
+						required: true
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
@@ -95,6 +97,7 @@ export class RidderIQ implements INodeType {
 						type: 'string',
 						default: '',
 						description: 'Optional filter to apply.',
+						required: true
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
@@ -103,8 +106,72 @@ export class RidderIQ implements INodeType {
 						type: 'string',
 						default: 'id.asc',
 						description: 'Sort order for results.',
+						required: true
 						//displayOptions: { show: { method: ['GET'] } },
 					},
+					{
+						displayName: 'Filters',
+						name: 'filters',
+						type: 'fixedCollection',
+						typeOptions: {
+							multipleValues: true, // meerdere filters
+						},
+						default: {},
+						options: [
+							{
+								name: 'filter',
+								displayName: 'Filter',
+								values: [
+									{
+										displayName: 'Field',
+										name: 'field',
+										type: 'string',
+										default: '',
+										placeholder: 'description',
+										required: true,
+									},
+									{
+										displayName: 'Operator',
+										name: 'operator',
+										type: 'options',
+										options: [
+											{ name: 'Equal', value: 'eq' },
+											{ name: 'Not Equal', value: 'ne' },
+											{ name: 'Greater Than', value: 'gt' },
+											{ name: 'Greater Than or Equal', value: 'gte' },
+											{ name: 'Less Than', value: 'lt' },
+											{ name: 'Less Than or Equal', value: 'lte' },
+											{ name: 'Contains', value: 'contains' },
+											{ name: 'Starts With', value: 'startsWith' },
+											{ name: 'Ends With', value: 'endsWith' },
+											{ name: 'Like', value: 'like' },
+											{ name: 'In', value: 'in' },
+											{ name: 'Between', value: 'between' },
+										],
+										default: 'eq',
+										required: true,
+									},
+									{
+										displayName: 'Value',
+										name: 'value',
+										type: 'string',
+										default: '',
+										placeholder: 'Test or 123',
+										required: false,
+									},
+									{
+										displayName: 'Value 2 (optional)',
+										name: 'value2',
+										type: 'string',
+										default: '',
+										placeholder: 'Voor between operator',
+										required: false,
+									},
+								],
+							},
+						],
+					}
+
 				],
 			},
 		],	
