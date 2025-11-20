@@ -35,7 +35,7 @@
 		"n8nNodesApiVersion": 1,
 		"strict": true,
 		"credentials": [
-			"dist/credentials/RidderIQ.credentials.js"
+			"dist/credentials/RidderIQApi.credentials.js"
 		],
 		"nodes": [
 			"dist/nodes/RidderIQ/RidderIQ.node.js"

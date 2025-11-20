@@ -1,5 +1,8 @@
-import { IHttpRequestMethods, INodeType, INodeTypeDescription, JsonObject } from 'n8n-workflow';
 import {
+	IHttpRequestMethods,
+	INodeType,
+	INodeTypeDescription,
+	JsonObject,
 	IExecuteFunctions,
 	INodeExecutionData,
 	NodeOperationError,
@@ -11,7 +14,7 @@ export class RidderIQ implements INodeType {
 		displayName: 'RidderIQ',
 		name: 'ridderIQ',
 		documentationUrl: 'https://api.eciridderiq.com/v2/index.html',
-        icon: { light: 'file:../../icons/ridderiq.svg', dark: 'file:../../icons/ridderiq.svg' },
+        icon: { light: 'file:../../icons/ridderiqL.svg', dark: 'file:../../icons/ridderiqD.svg' },
 		group: ['transform'],
 		version: 1,
 		description: 'Interact with the RidderIQ API',

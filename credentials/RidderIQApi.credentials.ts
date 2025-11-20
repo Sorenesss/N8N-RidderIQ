@@ -10,7 +10,7 @@ import {
 export class RidderIQApi implements ICredentialType {
 	name = 'ridderIQApi';
 	displayName = 'RidderIQ API';
-	icon: Icon = { light: 'file:../../n8n-nodes-ridderiq/icons/ridderiq.svg', dark: 'file:../../n8n-nodes-ridderiq/icons/ridderiq.svg' };
+	icon: Icon = { light: 'file:../icons/ridderiqL.svg', dark: 'file:../icons/ridderiqD.svg' };
 	documentationUrl = 'https://api.eciridderiq.com/v2/index.html';
 
 	authenticate: IAuthenticateGeneric = {
