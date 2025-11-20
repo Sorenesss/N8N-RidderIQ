@@ -117,15 +117,19 @@ export class RidderIQ implements INodeType {
 						type: 'fixedCollection',
 						typeOptions: {
 							multipleValues: true, // meerdere filters
-							addButtonText: 'Add another filter',
+							multipleValueButtonText: 'Add another filter',
 						},
 						default: {
 							filter: [
 								{
+									closeBracketBefore: false,
+									logicalOperator: 'and',
+									openBracketsBefore: false,
 									field: '',
 									operator: 'eq',
 									value: '',
 									value2: '',
+									closeBracketAfter: false,
 								},
 							],
 						},
@@ -134,6 +138,38 @@ export class RidderIQ implements INodeType {
 								name: 'filter',
 								displayName: 'Filter',
 								values: [
+									{
+										displayName: 'Close Brackets',
+										name: 'closeBracketBefore',
+										type: 'boolean',
+										default: false,
+										displayOptions: {
+                                            hide: {
+                                                '$index': [0],
+                                            },
+                                        },
+									},
+									{
+										displayName: 'Logical Operator',
+										name: 'logicalOperator',
+										type: 'options',
+										options: [
+											{ name: 'AND', value: 'and' },
+											{ name: 'OR', value: 'or' },
+										],
+										default: 'and',
+										displayOptions: {
+                                            hide: {
+                                                '$index': [0],
+                                            },
+                                        },
+									},
+									{
+										displayName: 'Open Brackets',
+										name: 'openBracketBefore',
+										type: 'boolean',
+										default: false,
+									},
 									{
 										displayName: 'Field',
 										name: 'field',
@@ -184,6 +220,17 @@ export class RidderIQ implements INodeType {
 											},
 										},
 									},
+									{
+										displayName: 'Close Brackets',
+										name: 'closeBracketAfter',
+										type: 'boolean',
+										default: false,
+										displayOptions: {
+                                            hide: {
+                                                '$index': [0],
+                                            },
+                                        },
+									},
 								],
 							},
 						],
@@ -192,13 +239,6 @@ export class RidderIQ implements INodeType {
 				],
 			},
 		],	
-		//requestDefaults: {
-		//	baseURL: '{{$credentials.baseURL}}/{{$credentials.TenantID}}/{{$credentials.AdministrationID}}/{{$parameter.version}}/{{$parameter.endpoint}}',
-		//	headers: {
-		//		Accept: 'application/json',
-		//		'Content-Type': 'application/json',
-		//	},
-		//},
 	};
 	
 
