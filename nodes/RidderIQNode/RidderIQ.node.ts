@@ -62,6 +62,7 @@ export class RidderIQ implements INodeType {
 				placeholder: 'JSON body',
 				type: 'json',
 				default: '{}',
+				description: 'The JSON body to send with the request.',
 				displayOptions: { show: { method: ['POST', 'PUT'] } },
 				required: true
 			},
@@ -79,7 +80,7 @@ export class RidderIQ implements INodeType {
 						placeholder: 'crm/todos',
 						default: 1,
 						description: 'Page number for paginated endpoints.',
-						required: true
+						required: false
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
@@ -88,7 +89,7 @@ export class RidderIQ implements INodeType {
 						type: 'number',
 						default: 20,
 						description: 'Number of items per page (if supported).',
-						required: true
+						required: false
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
@@ -97,7 +98,7 @@ export class RidderIQ implements INodeType {
 						type: 'string',
 						default: '',
 						description: 'Optional filter to apply.',
-						required: true
+						required: false
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
@@ -106,17 +107,28 @@ export class RidderIQ implements INodeType {
 						type: 'string',
 						default: 'id.asc',
 						description: 'Sort order for results.',
-						required: true
+						required: false
 						//displayOptions: { show: { method: ['GET'] } },
 					},
 					{
-						displayName: 'Filters',
+						displayName: 'Filter(s)',
 						name: 'filters',
+						description: 'Optional filter(s) to apply.',
 						type: 'fixedCollection',
 						typeOptions: {
 							multipleValues: true, // meerdere filters
+							addButtonText: 'Add another filter',
 						},
-						default: {},
+						default: {
+							filter: [
+								{
+									field: '',
+									operator: 'eq',
+									value: '',
+									value2: '',
+								},
+							],
+						},
 						options: [
 							{
 								name: 'filter',
@@ -127,8 +139,8 @@ export class RidderIQ implements INodeType {
 										name: 'field',
 										type: 'string',
 										default: '',
-										placeholder: 'description',
-										required: true,
+										placeholder: 'field',
+										required: false,
 									},
 									{
 										displayName: 'Operator',
@@ -149,7 +161,7 @@ export class RidderIQ implements INodeType {
 											{ name: 'Between', value: 'between' },
 										],
 										default: 'eq',
-										required: true,
+										required: false,
 									},
 									{
 										displayName: 'Value',
@@ -166,6 +178,11 @@ export class RidderIQ implements INodeType {
 										default: '',
 										placeholder: 'Voor between operator',
 										required: false,
+										displayOptions: {
+											show: {
+												operator: ['between'],
+											},
+										},
 									},
 								],
 							},
