@@ -12,7 +12,7 @@ import {
 export class RidderIQ implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'RidderIQ',
-		name: 'ridderIQ',
+		name: 'ridderIq',
 		documentationUrl: 'https://api.eciridderiq.com/v2/index.html',
         icon: { light: 'file:../../icons/ridderiqL.svg', dark: 'file:../../icons/ridderiqD.svg' },
 		group: ['transform'],
@@ -31,8 +31,8 @@ export class RidderIQ implements INodeType {
 				name: 'version',
 				type: 'options',
 				options: [
-					{ name: 'v1', value: 'v1' },
-					{ name: 'v2', value: 'v2' },
+					{ name: 'V1', value: 'v1' },
+					{ name: 'V2', value: 'v2' },
 				],
 				default: 'v2',
 				required: true
@@ -56,7 +56,7 @@ export class RidderIQ implements INodeType {
 				type: 'string',
 				default: '',
 				placeholder: 'crm/todos',
-				description: 'The API endpoint to call.',
+				description: 'The API endpoint to call',
 				required: true
 			},
 			{
@@ -65,7 +65,7 @@ export class RidderIQ implements INodeType {
 				placeholder: 'JSON body',
 				type: 'json',
 				default: '{}',
-				description: 'The JSON body to send with the request.',
+				description: 'The JSON body to send with the request',
 				displayOptions: { show: { method: ['POST', 'PUT'] } },
 				required: true
 			},
@@ -77,48 +77,9 @@ export class RidderIQ implements INodeType {
 				default: {},
 				options: [
 					{
-						displayName: 'Page',
-						name: 'page',
-						type: 'number',
-						placeholder: 'crm/todos',
-						default: 1,
-						description: 'Page number for paginated endpoints.',
-						required: false
-						//displayOptions: { show: { method: ['GET'] } },
-					},
-					{
-						displayName: 'Page Size',
-						name: 'pageSize',
-						type: 'number',
-						default: 20,
-						description: 'Number of items per page (if supported).',
-						required: false
-						//displayOptions: { show: { method: ['GET'] } },
-					},
-					{
-						displayName: 'Sort',
-						name: 'sort',
-						type: 'string',
-						default: 'id.asc',
-						description: 'Sort order for results.',
-						required: false
-						//displayOptions: { show: { method: ['GET'] } },
-					},
-					{
-						displayName: 'Filter Mode',
-						name: 'filterMode',
-						type: 'options',
-						options: [
-							{ name: 'Filter Builder (simple)', value: 'simple' },
-							{ name: 'Filter Query (advanced)', value: 'advanced' },
-						],
-						default: 'simple',
-						description: 'Choose between simple UI builder or advanced text format for complex filter combinations.',
-					},
-					{
 						displayName: 'Filter Builder',
 						name: 'filters',
-						description: 'Optional filter(s) to apply.',
+						description: 'Optional filter(s) to apply',
 						type: 'fixedCollection',
 						typeOptions: {
 							multipleValues: true,
@@ -149,29 +110,27 @@ export class RidderIQ implements INodeType {
 										name: 'field',
 										type: 'string',
 										default: '',
-										placeholder: 'field',
-										required: false,
+										placeholder: 'field'
 									},
 									{
 										displayName: 'Operator',
 										name: 'operator',
 										type: 'options',
 										options: [
+											{ name: 'Between', value: 'between' },
+											{ name: 'Contains', value: 'contains' },
+											{ name: 'Ends With', value: 'endsWith' },
 											{ name: 'Equal', value: 'eq' },
-											{ name: 'Not Equal', value: 'ne' },
 											{ name: 'Greater Than', value: 'gt' },
 											{ name: 'Greater Than or Equal', value: 'gte' },
+											{ name: 'In', value: 'in' },
 											{ name: 'Less Than', value: 'lt' },
 											{ name: 'Less Than or Equal', value: 'lte' },
-											{ name: 'Contains', value: 'contains' },
-											{ name: 'Starts With', value: 'startsWith' },
-											{ name: 'Ends With', value: 'endsWith' },
 											{ name: 'Like', value: 'like' },
-											{ name: 'In', value: 'in' },
-											{ name: 'Between', value: 'between' },
+											{ name: 'Not Equal', value: 'ne' },
+											{ name: 'Starts With', value: 'startsWith' },
 										],
 										default: 'eq',
-										required: false,
 									},
 									{
 										displayName: 'Value',
@@ -179,7 +138,6 @@ export class RidderIQ implements INodeType {
 										type: 'string',
 										default: '',
 										placeholder: 'Test or 123',
-										required: false,
 									},
 									{
 										displayName: 'Value 2',
@@ -187,7 +145,6 @@ export class RidderIQ implements INodeType {
 										type: 'string',
 										default: '',
 										placeholder: 'Voor between operator',
-										required: false,
 										displayOptions: {
 											show: {
 												operator: ['between'],
@@ -199,6 +156,17 @@ export class RidderIQ implements INodeType {
 						],
 					},
 					{
+						displayName: 'Filter Mode',
+						name: 'filterMode',
+						type: 'options',
+						options: [
+							{ name: 'Filter Builder', value: 'simple' },
+							{ name: 'Filter Query', value: 'advanced' },
+						],
+						default: 'simple',
+						description: 'Choose between simple UI builder or advanced text format for complex filter combinations',
+					},
+					{
                         displayName: 'Filter Query',
                         name: 'advancedFilterQuery',
                         type: 'string',
@@ -207,13 +175,38 @@ export class RidderIQ implements INodeType {
                         },
                         default: '',
                         placeholder: 'name=="test" AND age>20',
-                        description: 'Enter your RSQL/Filter query manually.',
+                        description: 'Enter your RSQL/Filter query manually',
                         displayOptions: {
                             show: {
                                 filterMode: ['advanced'],
                             },
                         },
                     },
+					{
+						displayName: 'Page',
+						name: 'page',
+						type: 'number',
+						placeholder: 'crm/todos',
+						default: 1,
+						description: 'Page number for paginated endpoints',
+						//displayOptions: { show: { method: ['GET'] } },
+					},
+					{
+						displayName: 'Page Size',
+						name: 'pageSize',
+						type: 'number',
+						default: 20,
+						description: 'Number of items per page (if supported)',
+						//displayOptions: { show: { method: ['GET'] } },
+					},
+					{
+						displayName: 'Sort',
+						name: 'sort',
+						type: 'string',
+						default: 'id.asc',
+						description: 'Sort order for results',
+						//displayOptions: { show: { method: ['GET'] } },
+					},
 				],
 			},
 		],	
@@ -269,7 +262,7 @@ export class RidderIQ implements INodeType {
 						const bodyJson = this.getNodeParameter('bodyJson', i) as string;
 						body = JSON.parse(bodyJson);
 					} catch (e) {
-						throw new Error(`Invalid JSON body: ${e.message}`);
+						throw new NodeOperationError(this.getNode(), `Invalid JSON body: ${e.message}`);
 					}
 				}
 

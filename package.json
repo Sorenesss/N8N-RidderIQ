@@ -8,8 +8,8 @@
 		"n8n", "n8n-community-node", "ridderiq", "api", "n8n-community-node-package"
 	],
 	"author": {
-		"name": "Reinout van Geresteijn",
-		"email": "rvg@tosch.nl"
+		"name": "soreness",
+		"email": "reinoutvg18@gmail.com"
 	},
 	"repository": {
 		"type": "git",
@@ -38,7 +38,7 @@
 			"dist/credentials/RidderIQApi.credentials.js"
 		],
 		"nodes": [
-			"dist/nodes/RidderIQ/RidderIQ.node.js"
+			"dist/nodes/RidderIq/RidderIq.node.js"
 		]
 	},
 	"devDependencies": {
