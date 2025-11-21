@@ -1,6 +1,6 @@
 {
     "name": "n8n-nodes-ridderiq",
-    "version": "1.0.12",
+    "version": "1.0.13",
     "description": "RidderIQ API integration for n8n",
     "license": "MIT",
     "homepage": "https://github.com/Sorenesss/n8n-ridderiq",
