@@ -25,7 +25,8 @@
 		"format": "prettier \"nodes/**/*.{ts,js,json,md}\" \"credentials/**/*.{ts,js,json,md}\" --write",
 		"lint": "eslint \"nodes/**/*.{ts,js}\" \"credentials/**/*.{ts,js}\" package.json --max-warnings=0",
 		"lintfix": "eslint \"nodes/**/*.{ts,js}\" \"credentials/**/*.{ts,js}\" package.json --fix",
-		"prepublishOnly": "npm run build && npm run lint"
+		"prepublishOnly": "npm run build && npm run lint",
+		"runn8n": "npx nodemon -q -e js,ts,yml,yaml,json,node,graphql,env,env.sample --exec  n8n start"
 	},
 	"files": [
 		"dist"
