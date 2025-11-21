@@ -20,13 +20,12 @@
 		"url": "https://github.com/Sorenesss/n8n-ridderiq.git"
 	},
 	"scripts": {
-		"build": "n8n-node build",
-		"build:watch": "tsc --watch",
-		"dev": "n8n-node dev",
-		"lint": "n8n-node lint",
-		"lint:fix": "n8n-node lint --fix",
-		"release": "n8n-node release",
-		"prepublishOnly": "n8n-node prerelease"
+		"build": "tsc -p tsconfig.build.json && gulp build:icons",
+		"dev": "tsc --watch",
+		"format": "prettier \"nodes/**/*.{ts,js,json,md}\" \"credentials/**/*.{ts,js,json,md}\" --write",
+		"lint": "eslint \"nodes/**/*.{ts,js}\" \"credentials/**/*.{ts,js}\" package.json --max-warnings=0",
+		"lintfix": "eslint \"nodes/**/*.{ts,js}\" \"credentials/**/*.{ts,js}\" package.json --fix",
+		"prepublishOnly": "npm run build && npm run lint"
 	},
 	"files": [
 		"dist"
