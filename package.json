@@ -1,6 +1,6 @@
 {
     "name": "n8n-nodes-ridderiq",
-    "version": "1.0.11",
+    "version": "1.0.12",
     "description": "RidderIQ API integration for n8n",
     "license": "MIT",
     "homepage": "https://github.com/Sorenesss/n8n-ridderiq",
@@ -20,27 +20,28 @@
         "url": "https://github.com/Sorenesss/n8n-ridderiq.git"
     },
     "scripts": {
-        "preinstall": "npx only-allow pnpm",
-        "build": "tsc && gulp build:icons",
-        "dev": "tsc --watch",
-        "format": "prettier nodes credentials --write",
-        "lint": "eslint nodes credentials package.json",
-        "lintfix": "eslint nodes credentials package.json --fix",
-        "prepublishOnly": "npm run build && npm run lint"
-    },
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"dev:manual": "npm run build && npm link && N8N_CUSTOM_EXTENSIONS=$(pwd) n8n start",
+		"link": "npm link",
+		"unlink": "npm unlink",
+		"format": "prettier nodes credentials --write",
+		"lint": "n8n-node lint",
+		"lintfix": "n8n-node lint --fix",
+		"test": "n8n-node test",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease"
+	},
     "files": [
-        "dist",
-        "credentials",
-        "nodes"
+        "dist"
     ],
     "publishConfig": {
         "access": "public"
     },
-    "main": "dist/index.js",
-    "types": "dist/index.d.ts",
+    "main": "index.js",
     "n8n": {
         "n8nNodesApiVersion": 1,
-        "strict": true,
         "credentials": [
             "dist/credentials/RidderIQApi.credentials.js"
         ],
@@ -49,7 +50,7 @@
         ]
     },
     "devDependencies": {
-        "@n8n/node-cli": "*",
+        "@n8n/node-cli": "^0.13.0",
         "@types/markdown-it": "^14.1.2",
         "@types/node": "^22.7.5",
         "@typescript-eslint/parser": "^7.15.0",
