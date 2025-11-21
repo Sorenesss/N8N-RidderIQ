@@ -32,7 +32,7 @@
 	"n8n": {
 		"n8nNodesApiVersion": 1,
 		"credentials": [
-			"dist/credentials/RidderIQApi.credentials.js"
+			"dist/credentials/RidderIqApi.credentials.js"
 		],
 		"nodes": [
 			"dist/nodes/RidderIq/RidderIq.node.js"
