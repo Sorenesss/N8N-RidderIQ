@@ -37,10 +37,10 @@
     "n8n": {
         "n8nNodesApiVersion": 1,
         "credentials": [
-            "dist/credentials/CronlyticApi.credentials.js"
+            "dist/credentials/RidderIQApi.credentials.js"
         ],
         "nodes": [
-            "dist/nodes/CronlyticTrigger/CronlyticTrigger.node.js"
+            "dist/nodes/RidderIq/RidderIq.node.js"
         ]
     },
     "devDependencies": {
