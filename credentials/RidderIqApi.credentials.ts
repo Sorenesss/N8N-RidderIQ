@@ -7,8 +7,8 @@ import {
 	IAuthenticateGeneric
 } from 'n8n-workflow';
 
-export class RidderIQApi implements ICredentialType {
-	name = 'ridderIQApi';
+export class RidderIqApi implements ICredentialType {
+	name = 'ridderIqApi';
 	displayName = 'RidderIQ API';
 	icon: Icon = { light: 'file:../icons/ridderiqL.svg', dark: 'file:../icons/ridderiqD.svg' };
 	documentationUrl = 'https://api.eciridderiq.com/v2/index.html';

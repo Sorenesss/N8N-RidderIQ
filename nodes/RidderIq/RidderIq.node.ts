@@ -22,7 +22,7 @@ export class RidderIQ implements INodeType {
 		inputs: ['main'],
 		outputs: ['main'],
 		credentials: [
-			{ name: 'ridderIQApi', required: true }
+			{ name: 'ridderIqApi', required: true }
 		],
 		usableAsTool: true,
 		properties: [
