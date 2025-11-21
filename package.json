@@ -1,58 +1,50 @@
 {
-    "name": "n8n-nodes-ridderiq",
-    "version": "1.0.16",
-    "description": "RidderIQ API integration for n8n",
-    "license": "MIT",
-    "homepage": "https://github.com/Sorenesss/n8n-ridderiq",
-    "keywords": [
-        "n8n",
-        "n8n-community-node",
-        "ridderiq",
-        "api",
-        "n8n-community-node-package"
-    ],
-    "author": {
-        "name": "soreness",
-        "email": "reinoutvg18@gmail.com"
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/Sorenesss/n8n-ridderiq.git"
-    },
-    "engines": {
-        "node": ">=20.15"
-    },
-    "main": "index.js",
-    "scripts": {
-        "build": "tsc && gulp build:icons",
-        "dev": "tsc --watch",
-        "format": "prettier nodes credentials --write",
-        "lint": "eslint package.json",
-        "lintfix": "eslint package.json --fix",
-        "prepublishOnly": "npm run build && npm run lint -- -c .eslintrc.prepublish.js package.json"
-    },
-    "files": [
-        "dist"
-    ],
-    "n8n": {
-        "n8nNodesApiVersion": 1,
-        "credentials": [
-            "dist/credentials/RidderIQApi.credentials.js"
-        ],
-        "nodes": [
-            "dist/nodes/RidderIq/RidderIq.node.js"
-        ]
-    },
-    "devDependencies": {
-        "@types/node": "^22.15.21",
-        "@typescript-eslint/parser": "~8.32.0",
-        "eslint": "^9.39.1",
-        "eslint-plugin-n8n-nodes-base": "^1.16.3",
-        "gulp": "^5.0.0",
-        "prettier": "^3.5.3",
-        "typescript": "^5.8.2"
-    },
-    "peerDependencies": {
-        "n8n-workflow": "*"
-    }
+	"name": "n8n-nodes-ridderiq",
+	"version": "1.0.16",
+	"description": "A node for RidderIQ API integration in n8n",
+	"license": "MIT",
+	"homepage": "",
+	"keywords": [
+		"n8n-community-node-package"
+	],
+	"author": {
+		"name": "Soreness",
+		"email": "reinoutvg18@gmail.com"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/Soreness/n8n-nodes-ridderiq.git"
+	},
+	"scripts": {
+		"build": "n8n-node build",
+		"build:watch": "tsc --watch",
+		"dev": "n8n-node dev",
+		"lint": "n8n-node lint",
+		"lint:fix": "n8n-node lint --fix",
+		"release": "n8n-node release",
+		"prepublishOnly": "n8n-node prerelease"
+	},
+	"files": [
+		"dist"
+	],
+	"n8n": {
+		"n8nNodesApiVersion": 1,
+		"strict": true,
+		"credentials": [
+			"dist/credentials/RidderIQApi.credentials.js"
+		],
+		"nodes": [
+			"dist/nodes/RidderIq/RidderIq.node.js"
+		]
+	},
+	"devDependencies": {
+		"@n8n/node-cli": "*",
+		"eslint": "9.32.0",
+		"prettier": "3.6.2",
+		"release-it": "^19.0.4",
+		"typescript": "5.9.2"
+	},
+	"peerDependencies": {
+		"n8n-workflow": "*"
+	}
 }
