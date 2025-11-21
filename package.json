@@ -20,12 +20,12 @@
 		"url": "https://github.com/Sorenesss/n8n-ridderiq.git"
 	},
 	"scripts": {
-		"build": "tsc -p tsconfig.build.json && gulp build:icons",
+		"build": "tsc && gulp build:icons",
 		"dev": "tsc --watch",
-		"format": "prettier \"nodes/**/*.{ts,js,json,md}\" \"credentials/**/*.{ts,js,json,md}\" --write",
-		"lint": "eslint \"nodes/**/*.{ts,js}\" \"credentials/**/*.{ts,js}\" package.json --max-warnings=0",
-		"lintfix": "eslint \"nodes/**/*.{ts,js}\" \"credentials/**/*.{ts,js}\" package.json --fix",
-		"prepublishOnly": "npm run build && npm run lint",
+		"format": "prettier nodes credentials --write",
+		"lint": "eslint nodes credentials package.json",
+		"lintfix": "eslint nodes credentials package.json --fix",
+		"prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json",
 		"runn8n": "npx nodemon -q -e js,ts,yml,yaml,json,node,graphql,env,env.sample --exec  n8n start"
 	},
 	"files": [
@@ -34,7 +34,7 @@
 	"publishConfig": {
 		"access": "public"
 	},
-	"main": "dist/index.js",
+	"main": "index.js",
 	"n8n": {
 		"n8nNodesApiVersion": 1,
 		"strict": true,
