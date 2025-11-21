@@ -1,64 +1,70 @@
 {
-	"name": "n8n-nodes-ridderiq",
-	"version": "1.0.10",
-	"description": "RidderIQ API integration for n8n",
-	"license": "MIT",
-	"homepage": "",
-	"keywords": [
-		"n8n",
-		"n8n-community-node",
-		"ridderiq",
-		"api",
-		"n8n-community-node-package"
-	],
-	"author": {
-		"name": "soreness",
-		"email": "reinoutvg18@gmail.com"
-	},
-	"repository": {
-		"type": "git",
-		"url": "https://github.com/Sorenesss/n8n-ridderiq.git"
-	},
-	"scripts": {
-		"preinstall": "npx only-allow pnpm",
-		"build": "tsc && gulp build:icons",
-		"dev": "tsc --watch",
-		"format": "prettier nodes credentials --write",
-		"lint": "eslint nodes credentials package.json",
-		"lintfix": "eslint nodes credentials package.json --fix",
-		"prepublishOnly": "npm run build && npm run lint -c .eslintrc.prepublish.js nodes credentials package.json"
-	},
-	"files": [
-		"dist"
-	],
-	"publishConfig": {
-		"access": "public"
-	},
-	"main": "index.js",
-	"n8n": {
-		"n8nNodesApiVersion": 1,
-		"strict": true,
-		"credentials": [
-			"dist/credentials/RidderIQApi.credentials.js"
-		],
-		"nodes": [
-			"dist/nodes/RidderIq/RidderIq.node.js"
-		]
-	},
-	"devDependencies": {
-		"@n8n/node-cli": "*",
-		"@types/markdown-it": "^14.1.2",
-    	"@types/node": "^22.7.5",
-		"@typescript-eslint/parser": "^7.15.0",
-		"eslint": "9.32.0",
-		"gulp": "^5.0.1",
-		"gulp-cli": "^3.1.0",
-		"prettier": "3.6.2",
-		"release-it": "^19.0.4",
-		"n8n-workflow": "*",
-		"typescript": "5.9.2"
-	},
-	"peerDependencies": {
-		"n8n-workflow": "*"
-	}
+    "name": "n8n-nodes-ridderiq",
+    "version": "1.0.11",
+    "description": "RidderIQ API integration for n8n",
+    "license": "MIT",
+    "homepage": "https://github.com/Sorenesss/n8n-ridderiq",
+    "keywords": [
+        "n8n",
+        "n8n-community-node",
+        "ridderiq",
+        "api",
+        "n8n-community-node-package"
+    ],
+    "author": {
+        "name": "soreness",
+        "email": "reinoutvg18@gmail.com"
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/Sorenesss/n8n-ridderiq.git"
+    },
+    "scripts": {
+        "preinstall": "npx only-allow pnpm",
+        "build": "tsc && gulp build:icons",
+        "dev": "tsc --watch",
+        "format": "prettier nodes credentials --write",
+        "lint": "eslint nodes credentials package.json",
+        "lintfix": "eslint nodes credentials package.json --fix",
+        "prepublishOnly": "npm run build && npm run lint"
+    },
+    "files": [
+        "dist",
+        "credentials",
+        "nodes"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "n8n": {
+        "n8nNodesApiVersion": 1,
+        "strict": true,
+        "credentials": [
+            "dist/credentials/RidderIQApi.credentials.js"
+        ],
+        "nodes": [
+            "dist/nodes/RidderIq/RidderIq.node.js"
+        ]
+    },
+    "devDependencies": {
+        "@n8n/node-cli": "*",
+        "@types/markdown-it": "^14.1.2",
+        "@types/node": "^22.7.5",
+        "@typescript-eslint/parser": "^7.15.0",
+        "eslint": "9.32.0",
+        "gulp": "^5.0.1",
+        "gulp-cli": "^3.1.0",
+        "prettier": "3.6.2",
+        "release-it": "^19.0.4",
+        "n8n-workflow": "*",
+        "typescript": "5.9.2"
+    },
+    "peerDependencies": {
+        "n8n-workflow": "*"
+    },
+    "engines": {
+        "node": ">=18.0.0"
+    }
 }
