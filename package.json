@@ -20,19 +20,19 @@
         "url": "https://github.com/Sorenesss/n8n-ridderiq.git"
     },
     "scripts": {
-		"build": "n8n-node build",
-		"build:watch": "tsc --watch",
-		"dev": "n8n-node dev",
-		"dev:manual": "npm run build && npm link && N8N_CUSTOM_EXTENSIONS=$(pwd) n8n start",
-		"link": "npm link",
-		"unlink": "npm unlink",
-		"format": "prettier nodes credentials --write",
-		"lint": "n8n-node lint",
-		"lintfix": "n8n-node lint --fix",
-		"test": "n8n-node test",
-		"release": "n8n-node release",
-		"prepublishOnly": "n8n-node prerelease"
-	},
+        "build": "n8n-node build",
+        "build:watch": "tsc --watch",
+        "dev": "n8n-node dev",
+        "dev:manual": "npm run build && npm link && N8N_CUSTOM_EXTENSIONS=$(pwd) n8n start",
+        "link": "npm link",
+        "unlink": "npm unlink",
+        "format": "prettier nodes credentials --write",
+        "lint": "n8n-node lint",
+        "lintfix": "n8n-node lint --fix",
+        "test": "n8n-node test",
+        "release": "n8n-node release",
+        "prepublishOnly": "n8n-node prerelease"
+    },
     "files": [
         "dist"
     ],
@@ -54,12 +54,13 @@
         "@types/markdown-it": "^14.1.2",
         "@types/node": "^22.7.5",
         "@typescript-eslint/parser": "^7.15.0",
-        "eslint": "9.32.0",
+		"eslint-plugin-n8n-nodes-base": "^1.16.1",
+        "eslint": "8.56.0",
         "gulp": "^5.0.1",
         "gulp-cli": "^3.1.0",
+        "n8n-workflow": "*",
         "prettier": "3.6.2",
         "release-it": "^19.0.4",
-        "n8n-workflow": "*",
         "typescript": "5.9.2"
     },
     "peerDependencies": {
