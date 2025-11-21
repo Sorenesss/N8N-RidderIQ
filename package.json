@@ -47,11 +47,15 @@
 	},
 	"devDependencies": {
 		"@n8n/node-cli": "*",
+		"@types/markdown-it": "^14.1.2",
+    	"@types/node": "^22.7.5",
+		"@typescript-eslint/parser": "^7.15.0",
 		"eslint": "9.32.0",
 		"gulp": "^5.0.1",
 		"gulp-cli": "^3.1.0",
 		"prettier": "3.6.2",
 		"release-it": "^19.0.4",
+		"n8n-workflow": "*",
 		"typescript": "5.9.2"
 	},
 	"peerDependencies": {
